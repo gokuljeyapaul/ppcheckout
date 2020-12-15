@@ -1,0 +1,15 @@
+{
+    "name": "paypal/pp-checkout",
+    "description": "Checkouts",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "paypal/paypal-checkout-sdk": "1.0.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "pp-checkout": "."
+        }
+    }
+}
