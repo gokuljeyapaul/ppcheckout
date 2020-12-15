@@ -20,13 +20,52 @@ try {
     // Call API with your client and get a response for your call
     $response = $client->execute($request);
 
-    header("Content-Type: application/json");
+    //header("Content-Type: application/json");
     
     // If call returns body in response, you can get the deserialized version from the result attribute of the response
-    echo json_encode($response->result);
+    echo jsonToTable($response->result);
 }catch (HttpException $ex) {
     echo $ex->statusCode;
     print_r($ex->getMessage());
+}
+
+function jsonToTable ($data)
+{
+    $table = '
+    <div class="text-center>
+    <table class="json-table" width="100%">
+    ';
+    foreach ($data as $key => $value) {
+        $table .= '
+        <tr valign="top">
+        ';
+        if ( ! is_numeric($key)) {
+            $table .= '
+            <td>
+                <strong>'. ucwords(str_replace("_", " ", $key)) .':</strong>
+            </td>
+            <td>
+            ';
+        } else {
+            $table .= '
+            <td colspan="2">
+            ';
+        }
+        if (is_object($value) || is_array($value)) {
+            $table .= jsonToTable($value);
+        } else {
+            $table .= $value;
+        }
+        $table .= '
+            </td>
+        </tr>
+        ';
+    }
+    $table .= '
+    </table>
+    </div>
+    ';
+    return $table;
 }
 
 ?>

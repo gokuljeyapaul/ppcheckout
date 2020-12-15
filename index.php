@@ -2,30 +2,45 @@
 
 
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
 <script src="https://www.paypal.com/sdk/js?client-id=Abj3PA3TgqUIG5CGf4ONmLPhd-b9fcwH543OcbPdwcJ8aZ2YOD69RRWhddmIgR4_-vmnkXN8-o-5CHQ6"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
-<img id="google-pay-gift-card"
-        src="https://www.pngkey.com/png/full/0-5222_google-play-gift-cards-google-play-gift-card.png"
-        alt="Google Play Gift Card"
-        width="300"
-        height="400">
-</img>
-<br/>
-<!-- form action="/order.php" method="POST">
-  <label for="amount">Amount (USD)</label>
-  <input type="text" id="amount" name="amount">
-  <input type="submit" name="submit" value = "submit"/>
-</form-->
 
-<label for="amount">Amount (USD)</label>
-<input type="text" id="amount" name="amount">
-<br/>
-<br/>
-<div id="paypal-button-container" style="width:300px;"></div>
+<div id="base-container">
+    <div class="text-center">
+        <img id="google-pay-gift-card"
+            src="https://www.pngkey.com/png/full/0-5222_google-play-gift-cards-google-play-gift-card.png"
+            alt="Google Play Gift Card"
+            width="300"
+            height="400">
+            </img>
+    </div>
+        
 
+    <div class="text-center">
+        <label for="customRange3" class="form-label">Denomination</label>
+        <input type="range" name="amountRange" class="form-range" min="5" max="15" step="5" id="customRange3" onchange="updateTextInput(this.value);">
+    </div>
+
+    <div class="text-center">
+        <label for="amount" class="form-label">Value</label>
+        <input type="text" id="amount" name="amount" value="10"  readonly>
+    </div>
+
+
+    <div class="text-center" id="paypal-button-container" style="display:block; margin:0 auto; width:300px;"></div>
+
+</div>
 <footer>
 
 <script>
@@ -63,14 +78,18 @@ paypal.Buttons({
             })
         }).then(function(res) {
             console.log(res);
-            return res.json();
+            return res.text();
         }).then(function(details) {
-            console.log(JSON.stringify(details));
-            alert(JSON.stringify(details, null, 2));
-            document.getElementById("amount").value="";
+            console.log(details);
+            $("#base-container").empty();
+            $("#base-container").html(details);
         });
     }
 }).render('#paypal-button-container');
+
+function updateTextInput(val) {
+    document.getElementById('amount').value=val; 
+}
 </script>
 </footer>
 
